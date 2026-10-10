@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7263376144556752"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ruleta DBD</title>
+    <meta
+      name="description"
+      content="Ruleta de perks para Killer y Superviviente: cada visitante elige sus personajes."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <div class="eyebrow" id="roleName">DEAD BY DAYLIGHT / SUPERVIVIENTE</div>
+          <h1>Que decida la Entidad.</h1>
+          <p>Elige tus personajes. Deja que la Entidad decida tu build.</p>
+        </div>
+        <span class="badge">TU POOL PERSONAL</span>
+      </header>
+      <div class="role-switch" role="group" aria-label="Modo de juego">
+        <button id="role-survivor" aria-pressed="true">Superviviente</button
+        ><button id="role-killer" aria-pressed="false">Killer</button>
+      </div>
+      <section class="welcome" id="welcome">
+        <div>
+          <strong>Empieza eligiendo tus personajes</strong>
+          <p>
+            Cada modo tiene su propia seleccion. Por ahora solo estan activas las perks
+            generales del modo actual.
+          </p>
+        </div>
+        <button id="choose">Elegir mis personajes</button>
+      </section>
+      <div class="layout">
+        <section class="stage">
+          <div class="pointer">▼</div>
+          <canvas
+            id="wheel"
+            width="620"
+            height="620"
+            aria-label="Ruleta decorativa de ventajas"
+          ></canvas
+          ><button class="spin" id="spin">GIRAR RULETA</button>
+          <p class="muted" id="poolCount"></p>
+          <div id="status" role="status" aria-live="polite">
+            La proxima build esta en manos de la suerte.
+          </div>
+        </section>
+        <section>
+          <div class="topline">
+            <div>
+              <h2>Tu proxima build</h2>
+              <span class="muted"
+                >4 perks distintas · todas con la misma probabilidad</span
+              >
+            </div>
+            <span class="badge" id="roleBadge">SUPERVIVIENTE</span>
+          </div>
+          <div class="cards" id="cards"></div>
+          <div class="toolbar">
+            <button id="copy">Copiar build</button
+            ><button id="unlock">Quitar bloqueos</button>
+          </div>
+          <p class="muted">
+            Bloquea una perk para conservarla al girar. Nombres en español latino. Puedes
+            buscar tambien por el nombre en ingles.
+          </p>
+          <div class="history" id="history"></div>
+        </section>
+      </div>
+      <details>
+        <summary>
+          Configurar mis personajes y perks <span class="muted" id="configCount"></span>
+        </summary>
+        <p>
+          Cada visitante empieza sin personajes seleccionados. Elige los que tienes y
+          añade los que vayas comprando desde el catálogo de abajo. Activa sus perks
+          cuando estén disponibles en el personaje con el que juegas; el prestigio 1 las
+          desbloquea para los demás. Tu configuración se guarda en este navegador.
+        </p>
+        <div class="controls">
+          <input
+            id="search"
+            type="search"
+            placeholder="Buscar personaje o perk…"
+            aria-label="Buscar personaje o perk"
+          /><button id="reset">Restablecer selección</button
+          ><button id="export">Exportar configuración</button
+          ><button id="import">Importar configuración</button
+          ><input type="file" id="importFile" accept=".json,application/json" hidden />
+        </div>
+        <div class="groups" id="groups"></div>
+      </details>
+      <details id="catalogPanel" open>
+        <summary>
+          Añadir personajes que compre <span class="muted" id="catalogCount"></span>
+        </summary>
+        <p>
+          Elige un personaje y sus tres perks se añadirán juntas, con nombres e imágenes.
+          Los personajes del catálogo solo entran en el sorteo cuando los añades.
+        </p>
+        <div class="controls">
+          <input
+            type="search"
+            id="catalogSearch"
+            placeholder="Buscar personaje o sus perks…"
+            aria-label="Buscar personaje en el catálogo"
+          />
+        </div>
+        <div id="catalog" class="catalog-grid"></div>
+        <p class="muted" id="catalogInfo"></p>
+      </details>
+      <footer>
+        Herramienta de fans, sin afiliación con Behaviour Interactive. Pool preparado el 9
+        de octubre de 2026.
+        <a
+          href="https://deadbydaylight.com/news/halloween-leaving-dead-by-daylight/"
+          target="_blank"
+          rel="noopener"
+          >Cambio de nombres de las perks generales de Halloween</a
+        >. Las perks generales procedentes de Laurie, Myers y Pinhead se muestran con su
+        diseño anterior, señalado en cada tarjeta. Iconos del juego: Behaviour
+        Interactive; archivos de
+        <a
+          href="https://github.com/3stadt/dbd_perk_slot_machine"
+          target="_blank"
+          rel="noopener"
+          >DBD Perk Slot Machine</a
+        >
+        y
+        <a href="https://github.com/Zawgalicious/DBDImages" target="_blank" rel="noopener"
+          >DBDImages</a
+        >. Nombres:
+        <a
+          href="https://deadbydaylight.wiki.gg/es/wiki/Ventajas"
+          target="_blank"
+          rel="noopener"
+          >Wiki en español</a
+        >.
+      </footer>
+    </main>
+    <script src="catalog.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
