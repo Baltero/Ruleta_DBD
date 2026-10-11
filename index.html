@@ -13,7 +13,7 @@
       name="description"
       content="Ruleta de perks para Killer y Superviviente: cada visitante elige sus personajes."
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=6" />
   </head>
   <body>
     <main>
@@ -29,16 +29,61 @@
         <button id="role-survivor" aria-pressed="true">Superviviente</button
         ><button id="role-killer" aria-pressed="false">Killer</button>
       </div>
+      <section
+        id="killerRoulette"
+        class="killer-roulette"
+        hidden
+        aria-labelledby="killerRouletteTitle"
+      >
+        <div class="topline">
+          <div>
+            <div class="eyebrow">QUE DECIDA LA ENTIDAD</div>
+            <h2 id="killerRouletteTitle">¿Con qué killer jugarás?</h2>
+          </div>
+          <span class="badge">RULETA DE KILLERS</span>
+        </div>
+        <p>Gira entre tus killers seleccionados. Cada uno tiene la misma probabilidad.</p>
+        <div class="killer-arena">
+          <div id="killerPortraitGrid" class="killer-portrait-grid"></div>
+          <div class="killer-result">
+            <span class="eyebrow" id="killerResultLabel">TU PRÓXIMA PARTIDA</span>
+            <h3 id="killerWinnerName">Elige tus killers</h3>
+            <img id="killerWinnerImage" src="portraits/fallback.svg" alt="" />
+            <p id="killerWheelStatus" role="status" aria-live="polite">
+              Añade tus killers desde el catálogo para comenzar.
+            </p>
+          </div>
+        </div>
+        <div class="toolbar">
+          <label
+            ><input id="animateKillers" type="checkbox" checked /> Animar el sorteo</label
+          >
+          <button id="spinKiller" class="primary">ELEGIR KILLER</button
+          ><button id="chooseKillerRoster">Seleccionar mis killers</button
+          ><label
+            ><input id="allKillers" type="checkbox" /> Incluir todo el catálogo</label
+          >
+        </div>
+      </section>
       <section class="welcome" id="welcome">
         <div>
           <strong>Empieza eligiendo tus personajes</strong>
           <p>
-            Cada modo tiene su propia seleccion. Por ahora solo estan activas las perks
+            Cada modo tiene su propia selección. Por ahora solo están activas las perks
             generales del modo actual.
           </p>
         </div>
         <button id="choose">Elegir mis personajes</button>
       </section>
+      <div class="toolbar">
+        <label
+          ><input id="allPerkCharacters" type="checkbox" /> Incluir todos los personajes
+          para las perks</label
+        ><span class="muted"
+          >Incluye todas las perks del modo actual sin cambiar tus personajes
+          guardados.</span
+        >
+      </div>
       <div class="layout">
         <section class="stage">
           <div class="pointer">▼</div>
@@ -51,13 +96,13 @@
           ><button class="spin" id="spin">GIRAR RULETA</button>
           <p class="muted" id="poolCount"></p>
           <div id="status" role="status" aria-live="polite">
-            La proxima build esta en manos de la suerte.
+            La próxima build está en manos de la suerte.
           </div>
         </section>
         <section>
           <div class="topline">
             <div>
-              <h2>Tu proxima build</h2>
+              <h2>Tu próxima build</h2>
               <span class="muted"
                 >4 perks distintas · todas con la misma probabilidad</span
               >
@@ -71,7 +116,7 @@
           </div>
           <p class="muted">
             Bloquea una perk para conservarla al girar. Nombres en español latino. Puedes
-            buscar tambien por el nombre en ingles.
+            buscar también por el nombre en inglés.
           </p>
           <div class="history" id="history"></div>
         </section>
@@ -148,6 +193,8 @@
       </footer>
     </main>
     <script src="catalog.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=5"></script>
+    <script src="killer-portraits.js?v=4"></script>
+    <script src="killer-roulette.js?v=6"></script>
   </body>
 </html>

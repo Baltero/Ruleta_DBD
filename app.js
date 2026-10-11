@@ -10,6 +10,9 @@ let all = allFor(role),
   knownOwners = new Set(catalog.map(([o]) => o)),
   knownIds = new Set(all.map((p) => p.id));
 const key = 'jean-dbd-pool-v4';
+// El catálogo completo es un filtro de sorteo; no cambia los personajes comprados.
+const fullPerkCatalog = { survivor: false, killer: false };
+const perkInPool = (p) => fullPerkCatalog[role] || (available(p) && enabled.has(p.id));
 let owned = new Set(),
   enabled = new Set(),
   build = [null, null, null, null],
@@ -54,7 +57,7 @@ function validSettings(v, mode = role) {
     v.owned.some((o) => typeof o !== 'string' || !owners.has(o)) ||
     v.enabled.some((id) => typeof id !== 'string' || !ids.has(id))
   )
-    throw Error('El archivo incluye personajes o perks fuera de este catalogo o modo.');
+    throw Error('El archivo incluye personajes o perks fuera de este catálogo o modo.');
   const o = new Set(v.owned),
     e = new Set(
       v.enabled.filter((id) => {
@@ -187,8 +190,11 @@ function save() {
   updateCount();
 }
 function updateCount() {
-  $('poolCount').textContent =
-    enabled.size + ' perks activas · ' + owned.size + ' personajes';
+  if (typeof refreshKillerRoulette === 'function') refreshKillerRoulette();
+  $('poolCount').textContent = fullPerkCatalog[role]
+    ? all.length + ' perks activas · catálogo completo'
+    : enabled.size + ' perks activas · ' + owned.size + ' personajes';
+  $('allPerkCharacters').checked = fullPerkCatalog[role];
   $('configCount').textContent = '(' + enabled.size + ')';
   $('catalogCount').textContent = catalog.length - owned.size + ' personajes por añadir';
   $('welcome').hidden = owned.size > 0;
@@ -232,7 +238,7 @@ function switchRole(mode) {
 }
 function cleanBuild() {
   build.forEach((p, i) => {
-    if (p && !enabled.has(p.id)) {
+    if (p && !perkInPool(p)) {
       build[i] = null;
       locks[i] = false;
     }
@@ -372,9 +378,7 @@ function sample(pool, k) {
 $('spin').onclick = () => {
   if (busy) return;
   const kept = build.filter((p, i) => p && locks[i]),
-    pool = all.filter(
-      (p) => available(p) && enabled.has(p.id) && !kept.some((k) => k.id === p.id),
-    ),
+    pool = all.filter((p) => perkInPool(p) && !kept.some((k) => k.id === p.id)),
     slots = locks.map((l, i) => (l ? -1 : i)).filter((i) => i >= 0);
   if (!slots.length) {
     $('status').textContent = 'Desbloquea al menos una perk para girar.';
@@ -548,3 +552,17 @@ renderGroups();
 renderCatalog();
 renderCards();
 draw();
+
+$('allPerkCharacters').onchange = () => {
+  if (busy) {
+    $('allPerkCharacters').checked = fullPerkCatalog[role];
+    return;
+  }
+  fullPerkCatalog[role] = $('allPerkCharacters').checked;
+  cleanBuild();
+  renderCards();
+  updateCount();
+  $('status').textContent = fullPerkCatalog[role]
+    ? 'Perks de todos los personajes y generales incluidas en el sorteo.'
+    : 'El sorteo vuelve a tu selección personal de perks.';
+};

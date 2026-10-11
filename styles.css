@@ -454,3 +454,277 @@ a {
     min-width: 0;
   }
 }
+
+/* Sorteo de killers: galería de retratos y resultado central. */
+[hidden] {
+  display: none !important;
+}
+.killer-roulette {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: radial-gradient(ellipse at center, #381827, #12131c 70%);
+}
+.killer-arena {
+  position: relative;
+  min-height: 540px;
+  padding: 12px;
+}
+.killer-portrait-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+.killer-tile {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 2px solid #444050;
+  border-radius: 12px;
+  background: #241924;
+  opacity: 0.55;
+  transition:
+    opacity 0.15s,
+    border-color 0.15s;
+}
+.killer-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.killer-tile span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 4px;
+  background: #0c0d13d9;
+  font-size: 11px;
+  text-align: center;
+}
+.killer-tile.is-active {
+  opacity: 1;
+  border-color: var(--violet);
+  box-shadow: 0 0 16px #be9eff66;
+}
+.killer-tile.is-winner {
+  border-color: #efbe66;
+}
+.killer-result {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(42%, 370px);
+  padding: 18px;
+  text-align: center;
+  border: 1px solid #a36985;
+  border-radius: 18px;
+  background: #190f1bef;
+  box-shadow: 0 20px 70px #000;
+}
+.killer-result h3 {
+  font-size: clamp(22px, 3vw, 36px);
+  margin: 10px 0;
+}
+.killer-result img {
+  display: block;
+  width: 100%;
+  height: 290px;
+  object-fit: contain;
+  background: radial-gradient(ellipse, #672234, #150e19);
+  border-radius: 10px;
+}
+.killer-result p {
+  font-size: 13px;
+  margin-bottom: 0;
+}
+.killer-roulette .toolbar {
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.killer-roulette label {
+  font-size: 14px;
+  color: var(--muted);
+}
+@media (max-width: 680px) {
+  .killer-roulette {
+    padding: 16px;
+  }
+  .killer-arena {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+    min-height: 0;
+    padding: 0;
+  }
+  .killer-result {
+    position: static;
+    transform: none;
+    width: 100%;
+  }
+  .killer-result img {
+    height: 260px;
+  }
+  .killer-portrait-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .killer-tile span {
+    font-size: 10px;
+  }
+}
+
+/* Paso de retratos y celebración del resultado del sorteo. */
+.killer-result {
+  overflow: hidden;
+}
+.is-spinning .killer-result {
+  border-color: var(--violet);
+  box-shadow: 0 0 35px #be9eff55;
+}
+.portrait-passing {
+  animation: portrait-pass 130ms ease-out;
+}
+.portrait-landed {
+  animation: portrait-land 0.5s ease-out;
+}
+@keyframes portrait-pass {
+  from {
+    opacity: 0.45;
+    transform: translateY(-22px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes portrait-land {
+  0% {
+    transform: scale(0.94);
+    filter: brightness(1.7);
+  }
+  65% {
+    transform: scale(1.035);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .killer-roulette:not(.animation-enabled) .portrait-passing,
+  .killer-roulette:not(.animation-enabled) .portrait-landed {
+    animation: none;
+  }
+}
+
+/* Vista compacta: el catálogo y el resultado caben en el alto de la pantalla. */
+.killer-roulette {
+  padding: 18px;
+  scroll-margin-top: 12px;
+}
+.killer-roulette > p {
+  margin: 6px 0 14px;
+}
+.killer-roulette .topline h2 {
+  margin: 5px 0;
+}
+.killer-arena {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(210px, 25vw, 290px);
+  gap: 18px;
+  min-height: 0;
+  height: clamp(300px, calc(100svh - 240px), 530px);
+  padding: 0;
+}
+.killer-portrait-grid {
+  height: 100%;
+  min-height: 0;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+.killer-tile {
+  min-height: 0;
+  aspect-ratio: auto;
+  border-radius: 8px;
+}
+.killer-tile img {
+  object-fit: contain;
+}
+.killer-tile span {
+  padding: 3px 2px;
+  font-size: 9px;
+  line-height: 1.1;
+  max-height: 24px;
+  overflow: hidden;
+}
+.killer-result {
+  position: static;
+  transform: none;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.killer-result h3 {
+  font-size: clamp(20px, 2.2vw, 28px);
+  margin: 8px 0;
+}
+.killer-result img {
+  flex: 1;
+  min-height: 0;
+  height: 0;
+  max-height: 360px;
+  width: 100%;
+}
+.killer-result p {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 10px 0 0;
+}
+.killer-roulette .toolbar {
+  margin-top: 14px;
+  gap: 10px;
+}
+@media (max-width: 680px) {
+  .killer-arena {
+    grid-template-columns: minmax(0, 1fr) minmax(135px, 0.8fr);
+    gap: 10px;
+    height: clamp(310px, calc(100svh - 290px), 440px);
+  }
+  .killer-portrait-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(11, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .killer-tile span {
+    display: none;
+  }
+  .killer-result {
+    padding: 8px;
+  }
+  .killer-result h3 {
+    font-size: 19px;
+  }
+  .killer-result .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .killer-roulette {
+    padding: 12px;
+  }
+  .killer-roulette .topline {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .killer-roulette .toolbar label {
+    font-size: 12px;
+  }
+}
